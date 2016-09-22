@@ -1,5 +1,6 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.discount.Discount;
 import com.luxoft.training.solid.store.persistence.ProductData;
 import com.luxoft.training.solid.store.receipt.Receipt;
 
@@ -8,23 +9,21 @@ public final class Product {
     private final String name;
     private final double price;
     private final int count;
+    private final Discount discount;
 
-    public Product (String name, double price, int count) {
+    public Product(String name, double price, int count, Discount discount) {
         this.name = name;
         this.price = price;
         this.count = count;
+        this.discount = discount;
     }
 
-    public Product(ProductData data) {
-        this(data.getName(), data.getPrice(), data.getCount());
-    }
-
-    public Product(Product originalProduct, int count) {
-        this(originalProduct.name, originalProduct.price, count);
+    public Product(ProductData data, Discount discount) {
+        this(data.getName(), data.getPrice(), data.getCount(), discount);
     }
 
     public double getFullPriceForAll() {
-        return price * count;
+        return (price - discount.getDiscount(price)) * count;
     }
 
     public void fillReceipt(Receipt receipt) {

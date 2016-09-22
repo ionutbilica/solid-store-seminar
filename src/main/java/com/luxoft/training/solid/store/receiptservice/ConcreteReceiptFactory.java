@@ -25,7 +25,7 @@ public class ConcreteReceiptFactory implements ReceiptFactory {
 
     private class UnknownReceiptFormat extends RuntimeException {
         public UnknownReceiptFormat(Format format) {
-            super("Unknown receiptservice format: " + format);
+            super("Unknown receipt format: " + format);
         }
     }
 }
