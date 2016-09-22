@@ -3,6 +3,8 @@ package com.luxoft.training.solid.store.receipt;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.luxoft.training.solid.store.Cart.DELIVERY_COST;
+
 public class TextReceipt extends AbstractReceipt {
 
     private final int no;
@@ -21,7 +23,7 @@ public class TextReceipt extends AbstractReceipt {
         appendProducts(s);
 
         if (hasDelivery) {
-            s.append("Delivery: " + deliveryCost + "\n");
+            s.append("Delivery: " + DELIVERY_COST + "\n");
         }
         s.append("Total: " + totalPrice + "\n");
         s.append("Date: " + new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(date) + "\n");

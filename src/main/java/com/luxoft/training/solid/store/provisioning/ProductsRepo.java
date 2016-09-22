@@ -1,31 +1,23 @@
-package com.luxoft.training.solid.store;
+package com.luxoft.training.solid.store.provisioning;
+
+import com.luxoft.training.solid.store.NotEnoughInStockException;
+import com.luxoft.training.solid.store.Product;
+import com.luxoft.training.solid.store.ProductNotFoundException;
+import com.luxoft.training.solid.store.Stock;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestStock implements Stock {
-
-    public static final double BREAD_PRICE = 5;
-    public static final double WINE_PRICE = 10;
-    public static final String BREAD_NAME = "Bread";
-    public static final String WINE_NAME = "Wine";
+public class ProductsRepo implements Provisioning, Stock {
 
     private final Map<String, Product> products;
 
-    public TestStock() {
-        products = new HashMap<>();
-        addProduct(BREAD_NAME, BREAD_PRICE, 100);
-        addProduct(WINE_NAME, WINE_PRICE, 100);
+    public ProductsRepo() {
+        this.products = new HashMap<>();
     }
 
     @Override
-    public Product takeProduct(String name, int count) {
-        Product productInStock = findProduct(name);
-        removeProduct(productInStock, count);
-        return new Product(productInStock.getName(), productInStock.getPrice(), count);
-    }
-
-    private void addProduct(String name, double price, int count) {
+    public void addProduct(String name, double price, int count) {
         Product p;
         try {
             p = findProduct(name);
@@ -34,6 +26,18 @@ public class TestStock implements Stock {
             p = new Product(name, price, count);
         }
         products.put(name, p);
+    }
+
+    @Override
+    public void removeProduct(String name, int countToRemove) {
+        Product p = findProduct(name);
+        removeProduct(p, countToRemove);
+    }
+
+    public Product takeProduct(String name, int count) {
+        Product productInStock = findProduct(name);
+        removeProduct(productInStock, count);
+        return new Product(productInStock.getName(), productInStock.getPrice(), count);
     }
 
     private Product findProduct(String name) {

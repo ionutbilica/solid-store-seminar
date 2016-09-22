@@ -1,5 +1,6 @@
 package com.luxoft.training.solid.store.receipt;
 
+import com.luxoft.training.solid.store.IdGenerator;
 import com.luxoft.training.solid.store.Receipt;
 import com.luxoft.training.solid.store.ReceiptFactory;
 

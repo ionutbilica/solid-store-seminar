@@ -1,4 +1,4 @@
-package com.luxoft.training.solid.store.exception;
+package com.luxoft.training.solid.store;
 
 public class CartNotFoundException extends RuntimeException {
 

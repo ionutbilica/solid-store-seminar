@@ -1,4 +1,4 @@
-package com.luxoft.training.solid.store.exception;
+package com.luxoft.training.solid.store;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(String productId) {
