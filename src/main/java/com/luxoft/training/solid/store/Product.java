@@ -28,6 +28,10 @@ public final class Product {
         return getPrice() * count;
     }
 
+    public void fillReceipt(Receipt receipt) {
+        receipt.addProduct(name, count, price, getFullPriceForAll());
+    }
+
     @Override
     public String toString() {
         return "Product{" +

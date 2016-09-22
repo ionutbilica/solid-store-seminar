@@ -9,15 +9,17 @@ import java.util.Map;
 
 public class Store {
 
+    private final ReceiptFactory receiptFactory;
     private final Map<String, Product> stock;
     private double cash;
     private final Map<Integer, Cart> carts;
     private int latestCartId;
 
-    public Store() {
+    public Store(ReceiptFactory receiptFactory) {
+        this.receiptFactory = receiptFactory;
         this.stock = new HashMap<>();
         cash = 0;
-        carts = new HashMap<Integer, Cart>();
+        carts = new HashMap<>();
         latestCartId = 0;
     }
 
@@ -85,11 +87,12 @@ public class Store {
         cart.addDelivery();
     }
 
-    public String pay(int cartId) {
+    public String pay(int cartId, String receiptFormat) {
         Cart cart = getCart(cartId);
         double moneyFromTheClient = cart.getTotalPrice();
         cash += moneyFromTheClient;
-        return cart.getReceipt();
+        Receipt receipt = receiptFactory.createReceipt(ReceiptFactory.Format.valueOf(receiptFormat));
+        return cart.fillReceipt(receipt);
     }
 
     public double getCashAmount() {

@@ -13,7 +13,7 @@ public class PaymentTest {
 
     @Before
     public void beforeTest() {
-        store = new Store();
+        store = new Store(new MockReceiptFactory());
         new TestStock().insertIntoStore(store);
         cartId = store.createNewCart();
     }
@@ -22,7 +22,7 @@ public class PaymentTest {
     public void testPayment() throws Exception {
         store.addProductToCart(BREAD_NAME, cartId);
         store.addProductToCart(WINE_NAME, cartId);
-        store.pay(cartId);
+        store.pay(cartId, "TEXT");
         assertEquals("Cash amount incorrect.", BREAD_PRICE + WINE_PRICE, store.getCashAmount(), 0.1);
     }
 }

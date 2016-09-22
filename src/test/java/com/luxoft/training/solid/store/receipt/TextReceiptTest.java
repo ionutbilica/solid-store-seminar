@@ -1,30 +1,40 @@
-package com.luxoft.training.solid.store;
+package com.luxoft.training.solid.store.receipt;
 
+import com.luxoft.training.solid.store.ReceiptFactory;
+import com.luxoft.training.solid.store.Store;
+import com.luxoft.training.solid.store.TestStock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReceiptTest {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class TextReceiptTest {
 
     private Store store;
     private int cartId;
 
     @Before
-    public void beforeTest() {
-        store = new Store();
+    public void beforeTest() throws ParseException {
+        Date fixedDate = new SimpleDateFormat("dd-M-yyyy hh:mm:ss").parse("10-12-2015 12:33:44");
+        MockClock mockClock = new MockClock(fixedDate);
+        MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
+        ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
+        store = new Store(receiptFactory);
+
         cartId = store.createNewCart();
     }
 
     @Test
     public void testEmptyCart() {
-        String receipt = store.pay(cartId);
-        receipt = removeUntestableInfo(receipt);
+        String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
         Assert.assertEquals("Empty receipt not as expected."
-                , "Our StoreReceipt no.: not able to test this.\n" +
+                , "Our StoreReceipt no.: 33\n" +
                 "Total: 0.0\n" +
-                "Date: not able to test this.\n"
+                "Date: 10-12-2015 12:33:44\n"
                 , receipt);
-        System.out.println(receipt);
     }
 
     @Test
@@ -32,14 +42,13 @@ public class ReceiptTest {
         new TestStock().insertIntoStore(store);
         store.addProductToCart(TestStock.BREAD_NAME, cartId);
         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
-        String receipt = store.pay(cartId);
-        receipt = removeUntestableInfo(receipt);
+        String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
         Assert.assertEquals("Receipt for two products not as expected."
-        , "Our StoreReceipt no.: not able to test this.\n" +
+        , "Our StoreReceipt no.: 33\n" +
                         "Bread: 1 x 5.0 = 5.0\n" +
                         "Wine: 2 x 10.0 = 20.0\n" +
                         "Total: 25.0\n" +
-                        "Date: not able to test this.\n"
+                        "Date: 10-12-2015 12:33:44\n"
                 ,receipt
         );
     }
@@ -50,22 +59,15 @@ public class ReceiptTest {
         store.addProductToCart(TestStock.BREAD_NAME, cartId);
         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
         store.addDeliveryToCart(cartId);
-        String receipt = store.pay(cartId);
-        receipt = removeUntestableInfo(receipt);
+        String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
         Assert.assertEquals("Receipt for two products not as expected."
-                , "Our StoreReceipt no.: not able to test this.\n" +
+                , "Our StoreReceipt no.: 33\n" +
                         "Bread: 1 x 5.0 = 5.0\n" +
                         "Wine: 2 x 10.0 = 20.0\n" +
                         "Delivery: 12.0\n" +
                         "Total: 37.0\n" +
-                        "Date: not able to test this.\n"
+                        "Date: 10-12-2015 12:33:44\n"
                 ,receipt
         );
-    }
-
-    private String removeUntestableInfo(String receipt) {
-        receipt = receipt.replaceAll("Our StoreReceipt no.: .*\\n", "Our StoreReceipt no.: not able to test this.\n");
-        receipt = receipt.replaceAll("Date: .*\\n", "Date: not able to test this.\n");
-        return receipt;
     }
 }

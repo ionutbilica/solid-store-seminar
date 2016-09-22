@@ -15,7 +15,7 @@ public class CartTest {
 
     @Before
     public void beforeTest() {
-        store = new Store();
+        store = new Store(new MockReceiptFactory());
         new TestStock().insertIntoStore(store);
         cartId = store.createNewCart();
     }
