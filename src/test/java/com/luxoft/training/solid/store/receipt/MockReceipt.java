@@ -1,4 +1,4 @@
-package com.luxoft.training.solid.store;
+package com.luxoft.training.solid.store.receipt;
 
 public class MockReceipt implements Receipt {
     @Override

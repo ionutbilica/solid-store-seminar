@@ -1,8 +1,8 @@
-package com.luxoft.training.solid.store.receipt;
+package com.luxoft.training.solid.store.receiptservice;
 
-import com.luxoft.training.solid.store.IdGenerator;
-import com.luxoft.training.solid.store.Receipt;
-import com.luxoft.training.solid.store.ReceiptFactory;
+import com.luxoft.training.solid.store.idgen.IdGenerator;
+import com.luxoft.training.solid.store.receipt.Receipt;
+import com.luxoft.training.solid.store.receipt.ReceiptFactory;
 
 public class ConcreteReceiptFactory implements ReceiptFactory {
 
@@ -25,7 +25,7 @@ public class ConcreteReceiptFactory implements ReceiptFactory {
 
     private class UnknownReceiptFormat extends RuntimeException {
         public UnknownReceiptFormat(Format format) {
-            super("Unknown receipt format: " + format);
+            super("Unknown receiptservice format: " + format);
         }
     }
 }

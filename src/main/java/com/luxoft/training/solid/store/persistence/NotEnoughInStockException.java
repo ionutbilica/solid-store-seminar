@@ -1,8 +1,8 @@
-package com.luxoft.training.solid.store;
+package com.luxoft.training.solid.store.persistence;
 
 public class NotEnoughInStockException extends RuntimeException {
 
-    public NotEnoughInStockException(Product product, int countToRemove) {
+    public NotEnoughInStockException(ProductData product, int countToRemove) {
         super("Not enough of product [] " + product + " to take " + (-countToRemove));
     }
 }

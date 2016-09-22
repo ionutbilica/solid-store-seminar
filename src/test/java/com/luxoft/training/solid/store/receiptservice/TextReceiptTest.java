@@ -1,9 +1,10 @@
-package com.luxoft.training.solid.store.receipt;
+package com.luxoft.training.solid.store.receiptservice;
 
-import com.luxoft.training.solid.store.CartsRepo;
-import com.luxoft.training.solid.store.ReceiptFactory;
 import com.luxoft.training.solid.store.Store;
-import com.luxoft.training.solid.store.TestStock;
+import com.luxoft.training.solid.store.idgen.MockIdGenerator;
+import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
+import com.luxoft.training.solid.store.persistence.TestStock;
+import com.luxoft.training.solid.store.receipt.ReceiptFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class TextReceiptTest {
         MockClock mockClock = new MockClock(fixedDate);
         MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
         ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
-        store = new Store(new TestStock(), new CartsRepo(new MockIdGenerator(1)), receiptFactory);
+        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory);
 
         cartId = store.createNewCart();
     }
@@ -31,7 +32,7 @@ public class TextReceiptTest {
     @Test
     public void testEmptyCart() {
         String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
-        Assert.assertEquals("Empty receipt not as expected."
+        Assert.assertEquals("Empty receiptservice not as expected."
                 , "Our StoreReceipt no.: 33\n" +
                 "Total: 0.0\n" +
                 "Date: 10-12-2015 12:33:44\n"

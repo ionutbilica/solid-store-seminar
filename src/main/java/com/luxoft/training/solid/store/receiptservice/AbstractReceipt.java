@@ -1,6 +1,6 @@
-package com.luxoft.training.solid.store.receipt;
+package com.luxoft.training.solid.store.receiptservice;
 
-import com.luxoft.training.solid.store.Receipt;
+import com.luxoft.training.solid.store.receipt.Receipt;
 
 import java.util.ArrayList;
 import java.util.List;

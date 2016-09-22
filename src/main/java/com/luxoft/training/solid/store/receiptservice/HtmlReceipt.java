@@ -1,16 +1,14 @@
-package com.luxoft.training.solid.store.receipt;
+package com.luxoft.training.solid.store.receiptservice;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.luxoft.training.solid.store.Cart.DELIVERY_COST;
-
-public class TextReceipt extends AbstractReceipt {
+public class HtmlReceipt extends AbstractReceipt {
 
     private final int no;
     private final Date date;
 
-    public TextReceipt(int no, Date date) {
+    public HtmlReceipt(int no, Date date) {
         this.no = no;
         this.date = date;
     }
@@ -23,16 +21,16 @@ public class TextReceipt extends AbstractReceipt {
         appendProducts(s);
 
         if (hasDelivery) {
-            s.append("Delivery: " + DELIVERY_COST + "\n");
+            s.append("<div><b>Delivery</b>: " + deliveryCost + "</div>\n");
         }
-        s.append("Total: " + totalPrice + "\n");
-        s.append("Date: " + new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(date) + "\n");
+        s.append("<div><b>Total</b>: " + totalPrice + "</div>\n");
+        s.append("<div><b>Date</b>: " + new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(date) + "</div>\n");
         return s.toString();
     }
 
     private void appendProducts(StringBuilder s) {
         for (ProductReceiptLine p : productLines) {
-            s.append(p.name + ": " + p.count + " x " + p.price + " = " + p.priceForAll + "\n");
+            s.append("<div><b>" + p.name + "</b>: " + p.count + " x " + p.price + " = " + p.priceForAll + "</div>" + "\n");
         }
     }
 }
