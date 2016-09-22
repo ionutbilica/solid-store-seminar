@@ -16,7 +16,7 @@ public interface Sales {
 
     void addDeliveryToCart(int cartId) throws CartNotFoundException;
 
-    String pay(int cartId, String formatName) throws CartNotFoundException;
+    String pay(int cartId, String paymentMethodName, String formatName) throws CartNotFoundException;
 
-    double getCashAmount();
+    String getAccountingReport();
 }
