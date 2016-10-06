@@ -1,5 +1,7 @@
 package com.luxoft.training.solid.store.idgen;
 
+import com.luxoft.training.solid.store.idgen.IdGenerator;
+
 public class MockIdGenerator implements IdGenerator {
 
     private final int fixedId;
