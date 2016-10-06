@@ -1,7 +1,8 @@
 package com.luxoft.training.solid.store.receiptservice;
 
-import com.luxoft.training.solid.store.*;
+import com.luxoft.training.solid.store.Store;
 import com.luxoft.training.solid.store.accounting.MockAccounting;
+import com.luxoft.training.solid.store.discount.NoDiscountsRepo;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
 import com.luxoft.training.solid.store.persistence.TestStock;
@@ -25,7 +26,7 @@ public class HtmlReceiptTest {
         MockClock mockClock = new MockClock(fixedDate);
         MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
         ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory, new MockAccounting());
+        store = new Store(new TestStock(), new NoDiscountsRepo(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory, new MockAccounting());
 
         cartId = store.createNewCart();
     }
@@ -33,7 +34,7 @@ public class HtmlReceiptTest {
     @Test
     public void testEmptyCart() {
         String receipt = store.pay(cartId, "CASH", ReceiptFactory.Format.HTML.toString());
-        Assert.assertEquals("Empty receiptservice not as expected."
+        Assert.assertEquals("Empty receipt not as expected."
                 , "Our StoreReceipt no.: 33\n" +
                 "<div><b>Total</b>: 0.0</div>\n" +
                 "<div><b>Date</b>: 10-12-2015 12:33:44</div>\n"

@@ -1,0 +1,10 @@
+diff a/src/main/java/com/luxoft/training/solid/store/receiptservice/ConcreteReceiptFactory.java b/src/main/java/com/luxoft/training/solid/store/receiptservice/ConcreteReceiptFactory.java	(rejected hunks)
+@@ -25,7 +25,7 @@ public class ConcreteReceiptFactory implements ReceiptFactory {
+ 
+     private class UnknownReceiptFormat extends RuntimeException {
+         public UnknownReceiptFormat(Format format) {
+-            super("Unknown receiptservice format: " + format);
++            super("Unknown receipt format: " + format);
+         }
+     }
+ }

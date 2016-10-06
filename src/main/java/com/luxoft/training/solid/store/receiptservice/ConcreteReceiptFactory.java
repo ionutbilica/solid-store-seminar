@@ -27,7 +27,7 @@ public class ConcreteReceiptFactory implements ReceiptFactory {
 		private static final long serialVersionUID = 1055171844577192092L;
 
 		public UnknownReceiptFormat(Format format) {
-            super("Unknown receiptservice format: " + format);
+            super("Unknown receipt format: " + format);
         }
     }
 }
