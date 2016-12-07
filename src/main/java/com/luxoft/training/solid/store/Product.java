@@ -1,5 +1,7 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.receipt.Receipt;
+
 public final class Product {
 
     private final String name;
@@ -26,6 +28,10 @@ public final class Product {
 
     public double getFullPriceForAll() {
         return getPrice() * count;
+    }
+
+    public void fillReceipt(Receipt receipt) {
+        receipt.addProduct(name, count, price, getFullPriceForAll());
     }
 
     @Override

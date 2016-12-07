@@ -2,6 +2,7 @@ package com.luxoft.training.solid.store;
 
 import com.luxoft.training.solid.store.exception.CartNotFoundException;
 import com.luxoft.training.solid.store.exception.ProductNotFoundException;
+import com.luxoft.training.solid.store.receipt.MockReceiptFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class CartTest {
 
     @Before
     public void beforeTest() {
-        store = new Store();
+        store = new Store(new MockReceiptFactory());
         new TestStock().insertIntoStore(store);
         cartId = store.createNewCart();
     }

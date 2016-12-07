@@ -1,14 +1,13 @@
 package com.luxoft.training.solid.store;
 
-import java.text.SimpleDateFormat;
+import com.luxoft.training.solid.store.receipt.Receipt;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Cart {
 
-    public static final double DELIVERY_COST = 12;
-    private static int receiptNo;
+    private static final double DELIVERY_COST = 12;
 
     private final int id;
     private List<Product> products;
@@ -37,17 +36,14 @@ public class Cart {
         return productsTotal + deliveryCost;
     }
 
-    public String getReceipt() {
-        StringBuilder s = new StringBuilder("Our Store");
-        s.append("Receipt no.: " + ++receiptNo + "\n");
+    public String fillReceipt(Receipt receipt) {
         for (Product p : products) {
-            s.append(p.getName() + ": " + p.getCount() + " x " + p.getPrice() + " = " + p.getFullPriceForAll() + "\n");
+            p.fillReceipt(receipt);
         }
         if (hasDelivery) {
-            s.append("Delivery: " + DELIVERY_COST + "\n");
+            receipt.addDelivery(DELIVERY_COST);
         }
-        s.append("Total: " + getTotalPrice() + "\n");
-        s.append("Date: " + new SimpleDateFormat("dd-M-yyyy hh:mm:ss").format(new Date()) + "\n");
-        return s.toString();
+        receipt.setTotalPrice(getTotalPrice());
+        return receipt.toString();
     }
 }
