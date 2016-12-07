@@ -1,4 +1,4 @@
-package com.luxoft.training.solid.store;
+package com.luxoft.training.solid.store.persistence;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ public class TestStock implements Stock {
     public static final String BREAD_NAME = "Bread";
     public static final String WINE_NAME = "Wine";
 
-    private final Map<String, Product> products;
+    private final Map<String, ProductData> products;
 
     public TestStock() {
         products = new HashMap<>();
@@ -19,36 +19,36 @@ public class TestStock implements Stock {
     }
 
     @Override
-    public Product takeProduct(String name, int count) {
-        Product productInStock = findProduct(name);
+    public ProductData takeProduct(String name, int count) {
+        ProductData productInStock = findProduct(name);
         removeProduct(productInStock, count);
-        return new Product(productInStock.getName(), productInStock.getPrice(), count);
+        return new ProductData(productInStock.getName(), productInStock.getPrice(), count);
     }
 
     private void addProduct(String name, double price, int count) {
-        Product p;
+        ProductData p;
         try {
             p = findProduct(name);
-            p = new Product(name, price, p.getCount() + count);
+            p = new ProductData(name, price, p.getCount() + count);
         } catch (ProductNotFoundException e) {
-            p = new Product(name, price, count);
+            p = new ProductData(name, price, count);
         }
         products.put(name, p);
     }
 
-    private Product findProduct(String name) {
-        Product productInStock = products.get(name);
+    private ProductData findProduct(String name) {
+        ProductData productInStock = products.get(name);
         if (productInStock == null) {
             throw new ProductNotFoundException(name);
         }
         return productInStock;
     }
 
-    private void removeProduct(Product p, int countToRemove) {
+    private void removeProduct(ProductData p, int countToRemove) {
         if (countToRemove > p.getCount()) {
             throw new NotEnoughInStockException(p, countToRemove);
         }
-        p = new Product(p.getName(), p.getPrice(), p.getCount() - countToRemove);
+        p = new ProductData(p.getName(), p.getPrice(), p.getCount() - countToRemove);
         products.put(p.getName(), p);
     }
 }

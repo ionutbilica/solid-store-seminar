@@ -1,5 +1,7 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.persistence.CartData;
+import com.luxoft.training.solid.store.persistence.ProductData;
 import com.luxoft.training.solid.store.receipt.Receipt;
 
 import java.util.ArrayList;
@@ -45,5 +47,13 @@ public class Cart {
         }
         receipt.setTotalPrice(getTotalPrice());
         return receipt.toString();
+    }
+
+    public CartData getData() {
+        List<ProductData> pd = new ArrayList<>();
+        for (Product p : products) {
+            pd.add(p.getData());
+        }
+        return new CartData(id, pd, hasDelivery);
     }
 }

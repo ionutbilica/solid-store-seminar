@@ -1,9 +1,0 @@
-diff a/src/test/java/com/luxoft/training/solid/store/CartTest.java b/src/test/java/com/luxoft/training/solid/store/CartTest.java	(rejected hunks)
-@@ -1,7 +1,5 @@
- package com.luxoft.training.solid.store;
- 
--import com.luxoft.training.solid.store.exception.CartNotFoundException;
--import com.luxoft.training.solid.store.exception.ProductNotFoundException;
- import org.junit.Before;
- import org.junit.Test;
- 

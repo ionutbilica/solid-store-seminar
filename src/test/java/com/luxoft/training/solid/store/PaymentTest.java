@@ -1,11 +1,15 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.idgen.MockIdGenerator;
+import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
+import com.luxoft.training.solid.store.persistence.TestStock;
 import com.luxoft.training.solid.store.receipt.MockReceiptFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.luxoft.training.solid.store.TestStock.*;
+import static com.luxoft.training.solid.store.persistence.TestStock.*;
 import static org.junit.Assert.assertEquals;
+
 
 public class PaymentTest {
 
@@ -14,7 +18,7 @@ public class PaymentTest {
 
     @Before
     public void beforeTest() {
-        store = new Store(new TestStock(), new CartsRepo(new MockIdGenerator(1)), new MockReceiptFactory());
+        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory());
         cartId = store.createNewCart();
     }
 

@@ -1,5 +1,6 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.persistence.ProductData;
 import com.luxoft.training.solid.store.receipt.Receipt;
 
 public final class Product {
@@ -14,20 +15,16 @@ public final class Product {
         this.count = count;
     }
 
-    public String getName() {
-        return name;
+    public Product(ProductData data) {
+        this(data.getName(), data.getPrice(), data.getCount());
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public double getPrice() {
-        return price;
+    public Product(Product originalProduct, int count) {
+        this(originalProduct.name, originalProduct.price, count);
     }
 
     public double getFullPriceForAll() {
-        return getPrice() * count;
+        return price * count;
     }
 
     public void fillReceipt(Receipt receipt) {
@@ -41,5 +38,17 @@ public final class Product {
                 ", price=" + price +
                 ", count=" + count +
                 '}';
+    }
+
+    public ProductData getData() {
+        return new ProductData(name, price, count);
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public String getName() {
+        return name;
     }
 }

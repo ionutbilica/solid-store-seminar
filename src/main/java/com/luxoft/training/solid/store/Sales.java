@@ -1,5 +1,9 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.persistence.CartNotFoundException;
+import com.luxoft.training.solid.store.persistence.NotEnoughInStockException;
+import com.luxoft.training.solid.store.persistence.ProductNotFoundException;
+
 public interface Sales {
 
     int createNewCart();
