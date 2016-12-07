@@ -1,6 +1,7 @@
 package com.luxoft.training.solid.store.receiptservice;
 
 import com.luxoft.training.solid.store.Store;
+import com.luxoft.training.solid.store.accounting.MockAccounting;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
 import com.luxoft.training.solid.store.persistence.TestStock;
@@ -25,14 +26,14 @@ public class HtmlReceiptTest {
         MockClock mockClock = new MockClock(fixedDate);
         MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
         ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory);
+        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory, new MockAccounting());
 
         cartId = store.createNewCart();
     }
 
     @Test
     public void testEmptyCart() {
-        String receipt = store.pay(cartId, FORMAT);
+        String receipt = store.pay(cartId, "CASH", FORMAT);
         Assert.assertEquals("Empty receiptservice not as expected."
                 , "Our StoreReceipt no.: 33\n" +
                         "<div><b>Total</b>: 0.0</div>\n" +
@@ -44,7 +45,7 @@ public class HtmlReceiptTest {
     public void testTwoProducts() {
         store.addProductToCart(TestStock.BREAD_NAME, cartId);
         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
-        String receipt = store.pay(cartId, FORMAT);
+        String receipt = store.pay(cartId, "CASH", FORMAT);
         Assert.assertEquals("Receipt for two products not as expected."
                 , "Our StoreReceipt no.: 33\n" +
                         "<div><b>Bread</b>: 1 x 5.0 = 5.0</div>\n" +
@@ -60,7 +61,7 @@ public class HtmlReceiptTest {
         store.addProductToCart(TestStock.BREAD_NAME, cartId);
         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
         store.addDeliveryToCart(cartId);
-        String receipt = store.pay(cartId, FORMAT);
+        String receipt = store.pay(cartId, "CASH", FORMAT);
         Assert.assertEquals("Receipt for two products not as expected."
                 , "Our StoreReceipt no.: 33\n" +
                         "<div><b>Bread</b>: 1 x 5.0 = 5.0</div>\n" +

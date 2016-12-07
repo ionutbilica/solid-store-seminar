@@ -1,5 +1,6 @@
 package com.luxoft.training.solid.store;
 
+import com.luxoft.training.solid.store.accounting.Accounting;
 import com.luxoft.training.solid.store.persistence.CartData;
 import com.luxoft.training.solid.store.persistence.CartsRepo;
 import com.luxoft.training.solid.store.persistence.ProductData;
@@ -12,13 +13,13 @@ public class Store implements Sales {
     private final Stock stock;
     private final CartsRepo cartsRepo;
     private final ReceiptFactory receiptFactory;
-    private double cash;
+    private final Accounting accounting;
 
-    public Store(Stock stock, CartsRepo cartsRepo, ReceiptFactory receiptFactory) {
+    public Store(Stock stock, CartsRepo cartsRepo, ReceiptFactory receiptFactory, Accounting accounting) {
         this.stock = stock;
         this.cartsRepo = cartsRepo;
         this.receiptFactory = receiptFactory;
-        cash = 0;
+        this.accounting = accounting;
     }
 
     @Override
@@ -65,17 +66,16 @@ public class Store implements Sales {
     }
 
     @Override
-    public String pay(int cartId, String receiptFormat) {
+    public String pay(int cartId, String paymentMethod, String receiptFormat) {
         Cart cart = getCart(cartId);
         double moneyFromTheClient = cart.getTotalPrice();
-        cash += moneyFromTheClient;
+        accounting.receivePayment(moneyFromTheClient, paymentMethod);
         Receipt receipt = receiptFactory.createReceipt(receiptFormat);
         return cart.fillReceipt(receipt);
     }
 
     @Override
-    public double getCashAmount() {
-        return cash;
+    public String getAccountingReport() {
+        return accounting.getReport();
     }
-
 }

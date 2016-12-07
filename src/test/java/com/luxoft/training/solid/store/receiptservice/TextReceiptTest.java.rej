@@ -1,0 +1,36 @@
+diff a/src/test/java/com/luxoft/training/solid/store/receiptservice/TextReceiptTest.java b/src/test/java/com/luxoft/training/solid/store/receiptservice/TextReceiptTest.java	(rejected hunks)
+@@ -24,14 +25,14 @@ public class TextReceiptTest {
+         MockClock mockClock = new MockClock(fixedDate);
+         MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
+         ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
+-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory);
++        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory, new MockAccounting());
+ 
+         cartId = store.createNewCart();
+     }
+ 
+     @Test
+     public void testEmptyCart() {
+-        String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
++        String receipt = store.pay(cartId, "CASH", ReceiptFactory.Format.TEXT.toString());
+         Assert.assertEquals("Empty receiptservice not as expected."
+                 , "Our StoreReceipt no.: 33\n" +
+                 "Total: 0.0\n" +
+@@ -43,7 +44,7 @@ public class TextReceiptTest {
+     public void testTwoProducts() {
+         store.addProductToCart(TestStock.BREAD_NAME, cartId);
+         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
+-        String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
++        String receipt = store.pay(cartId, "CASH", ReceiptFactory.Format.TEXT.toString());
+         Assert.assertEquals("Receipt for two products not as expected."
+         , "Our StoreReceipt no.: 33\n" +
+                         "Bread: 1 x 5.0 = 5.0\n" +
+@@ -59,7 +60,7 @@ public class TextReceiptTest {
+         store.addProductToCart(TestStock.BREAD_NAME, cartId);
+         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
+         store.addDeliveryToCart(cartId);
+-        String receipt = store.pay(cartId, ReceiptFactory.Format.TEXT.toString());
++        String receipt = store.pay(cartId, "CASH", ReceiptFactory.Format.TEXT.toString());
+         Assert.assertEquals("Receipt for two products not as expected."
+                 , "Our StoreReceipt no.: 33\n" +
+                         "Bread: 1 x 5.0 = 5.0\n" +
