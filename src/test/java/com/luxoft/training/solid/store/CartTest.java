@@ -1,6 +1,5 @@
 package com.luxoft.training.solid.store;
 
-import com.luxoft.training.solid.store.accounting.MockAccounting;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.CartNotFoundException;
 import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
@@ -20,7 +19,7 @@ public class CartTest {
 
     @Before
     public void beforeTest() {
-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory(), new MockAccounting());
+        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory());
         cartId = store.createNewCart();
     }
 

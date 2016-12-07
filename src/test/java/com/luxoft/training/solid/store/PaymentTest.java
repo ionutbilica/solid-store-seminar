@@ -1,6 +1,5 @@
 package com.luxoft.training.solid.store;
 
-import com.luxoft.training.solid.store.accounting.MockAccounting;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
 import com.luxoft.training.solid.store.persistence.TestStock;
@@ -19,7 +18,7 @@ public class PaymentTest {
 
     @Before
     public void beforeTest() {
-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory(), new MockAccounting());
+        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory());
         cartId = store.createNewCart();
     }
 
@@ -27,7 +26,7 @@ public class PaymentTest {
     public void testPayment() throws Exception {
         store.addProductToCart(BREAD_NAME, cartId);
         store.addProductToCart(WINE_NAME, cartId);
-        store.pay(cartId, "CASH", "TEXT");
-        assertEquals("Accounting report incorrect.", "cash registry: " + (BREAD_PRICE + WINE_PRICE), store.getAccountingReport());
+        store.pay(cartId, "TEXT");
+        assertEquals("Cash amount incorrect.", BREAD_PRICE + WINE_PRICE, store.getCashAmount(), 0.1);
     }
 }
