@@ -1,6 +1,7 @@
 package com.luxoft.training.solid.store;
 
 import com.luxoft.training.solid.store.accounting.MockAccounting;
+import com.luxoft.training.solid.store.discount.NoDiscountsRepo;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.CartNotFoundException;
 import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
@@ -20,19 +21,19 @@ public class CartTest {
 
     @Before
     public void beforeTest() {
-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory(), new MockAccounting());
+        store = new Store(new TestStock(), new NoDiscountsRepo(), new InMemCartsRepo(new MockIdGenerator(1)), new MockReceiptFactory(), new MockAccounting());
         cartId = store.createNewCart();
     }
 
     @Test
     public void testEmptyCart() throws Exception {
-        assertEquals("Cart total should be the price of the one product.", 0, store.getCartTotal(cartId), 0.1);
+        assertEquals("Cart total should be 0.", 0, store.getCartTotal(cartId), 0.1);
     }
 
     @Test
     public void testSingleProduct() {
         store.addProductToCart(BREAD_NAME, cartId);
-        assertEquals("Cart total should be 0.", BREAD_PRICE, store.getCartTotal(cartId), 0.1);
+        assertEquals("Cart total should be the price of the one product.", BREAD_PRICE, store.getCartTotal(cartId), 0.1);
     }
 
     @Test

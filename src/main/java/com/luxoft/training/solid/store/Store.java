@@ -1,6 +1,7 @@
 package com.luxoft.training.solid.store;
 
 import com.luxoft.training.solid.store.accounting.Accounting;
+import com.luxoft.training.solid.store.discount.DiscountsRepo;
 import com.luxoft.training.solid.store.persistence.CartData;
 import com.luxoft.training.solid.store.persistence.CartsRepo;
 import com.luxoft.training.solid.store.persistence.ProductData;
@@ -11,12 +12,14 @@ import com.luxoft.training.solid.store.receipt.ReceiptFactory;
 public class Store implements Sales {
 
     private final Stock stock;
+    private final DiscountsRepo discountsRepo;
     private final CartsRepo cartsRepo;
     private final ReceiptFactory receiptFactory;
     private final Accounting accounting;
 
-    public Store(Stock stock, CartsRepo cartsRepo, ReceiptFactory receiptFactory, Accounting accounting) {
+    public Store(Stock stock, DiscountsRepo discountsRepo, CartsRepo cartsRepo, ReceiptFactory receiptFactory, Accounting accounting) {
         this.stock = stock;
+        this.discountsRepo = discountsRepo;
         this.cartsRepo = cartsRepo;
         this.receiptFactory = receiptFactory;
         this.accounting = accounting;
@@ -35,7 +38,8 @@ public class Store implements Sales {
     @Override
     public void addProductToCart(String name, int count, int cartId) {
         Cart cart = getCart(cartId);
-        Product product = new Product(stock.takeProduct(name, count));
+        ProductData productData = stock.takeProduct(name, count);
+        Product product = new Product(productData, discountsRepo.getDiscount(name));
         cart.addProduct(product);
         cartsRepo.saveCart(cart.getData());
     }
@@ -47,7 +51,7 @@ public class Store implements Sales {
             cart.addDelivery();
         }
         for (ProductData pd : data.getProducts()) {
-            cart.addProduct(new Product(pd));
+            cart.addProduct(new Product(pd, discountsRepo.getDiscount(pd.getName())));
         }
         return cart;
     }

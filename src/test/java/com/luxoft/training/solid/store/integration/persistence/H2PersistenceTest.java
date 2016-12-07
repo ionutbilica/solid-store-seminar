@@ -2,6 +2,7 @@ package com.luxoft.training.solid.store.integration.persistence;
 
 import com.luxoft.training.solid.store.Cart;
 import com.luxoft.training.solid.store.Product;
+import com.luxoft.training.solid.store.discount.NoDiscount;
 import com.luxoft.training.solid.store.persistence.CartData;
 import com.luxoft.training.solid.store.persistence.NotEnoughInStockException;
 import com.luxoft.training.solid.store.persistence.ProductData;
@@ -23,7 +24,7 @@ public class H2PersistenceTest {
             H2CartsRepo cartsRepo = new H2CartsRepo(connection);
 
             productsRepo.addProduct("wine", 100, 25);
-            Product wineInCart = new Product(productsRepo.takeProduct("wine", 10));
+            Product wineInCart = new Product(productsRepo.takeProduct("wine", 10), new NoDiscount());
 
             int newCartId = cartsRepo.createNewCart();
             Cart c = new Cart(newCartId);

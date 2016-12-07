@@ -2,6 +2,7 @@ package com.luxoft.training.solid.store.integration.persistence;
 
 import com.luxoft.training.solid.store.Cart;
 import com.luxoft.training.solid.store.Product;
+import com.luxoft.training.solid.store.discount.NoDiscount;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.*;
 import com.luxoft.training.solid.store.persistenceservice.file.FileCartsRepo;
@@ -28,7 +29,7 @@ public class FilePersistenceTest {
         CartsRepo cartsRepo = new FileCartsRepo(new MockIdGenerator(1));
 
         productsRepo.addProduct("wine", 100, 25);
-        Product wineInCart = new Product(productsRepo.takeProduct("wine", 10));
+        Product wineInCart = new Product(productsRepo.takeProduct("wine", 10), new NoDiscount());
 
         int newCartId = cartsRepo.createNewCart();
         Cart c = new Cart(newCartId);

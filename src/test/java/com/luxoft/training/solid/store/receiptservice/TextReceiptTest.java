@@ -2,6 +2,7 @@ package com.luxoft.training.solid.store.receiptservice;
 
 import com.luxoft.training.solid.store.Store;
 import com.luxoft.training.solid.store.accounting.MockAccounting;
+import com.luxoft.training.solid.store.discount.NoDiscountsRepo;
 import com.luxoft.training.solid.store.idgen.MockIdGenerator;
 import com.luxoft.training.solid.store.persistence.InMemCartsRepo;
 import com.luxoft.training.solid.store.persistence.TestStock;
@@ -26,7 +27,7 @@ public class TextReceiptTest {
         MockClock mockClock = new MockClock(fixedDate);
         MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
         ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
-        store = new Store(new TestStock(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory, new MockAccounting());
+        store = new Store(new TestStock(), new NoDiscountsRepo(), new InMemCartsRepo(new MockIdGenerator(1)), receiptFactory, new MockAccounting());
 
         cartId = store.createNewCart();
     }
