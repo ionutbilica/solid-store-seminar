@@ -1,5 +1,6 @@
 package com.luxoft.training.solid.store.receiptservice;
 
+import com.luxoft.training.solid.store.CartsRepo;
 import com.luxoft.training.solid.store.Store;
 import com.luxoft.training.solid.store.TestStock;
 import com.luxoft.training.solid.store.receipt.ReceiptFactory;
@@ -23,7 +24,7 @@ public class HtmlReceiptTest {
         MockClock mockClock = new MockClock(fixedDate);
         MockIdGenerator receiptNoGenerator = new MockIdGenerator(33);
         ReceiptFactory receiptFactory = new ConcreteReceiptFactory(receiptNoGenerator, mockClock);
-        store = new Store(receiptFactory);
+        store = new Store(new TestStock(), new CartsRepo(new MockIdGenerator(1)), receiptFactory);
 
         cartId = store.createNewCart();
     }
@@ -40,7 +41,6 @@ public class HtmlReceiptTest {
 
     @Test
     public void testTwoProducts() {
-        new TestStock().insertIntoStore(store);
         store.addProductToCart(TestStock.BREAD_NAME, cartId);
         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
         String receipt = store.pay(cartId, FORMAT);
@@ -56,7 +56,6 @@ public class HtmlReceiptTest {
 
     @Test
     public void testWithDelivery() {
-        new TestStock().insertIntoStore(store);
         store.addProductToCart(TestStock.BREAD_NAME, cartId);
         store.addProductToCart(TestStock.WINE_NAME, 2, cartId);
         store.addDeliveryToCart(cartId);

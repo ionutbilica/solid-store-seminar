@@ -1,4 +1,4 @@
-package com.luxoft.training.solid.store.receiptservice;
+package com.luxoft.training.solid.store;
 
 public interface IdGenerator {
     int generateId();

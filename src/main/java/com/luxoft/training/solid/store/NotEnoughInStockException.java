@@ -1,6 +1,4 @@
-package com.luxoft.training.solid.store.exception;
-
-import com.luxoft.training.solid.store.Product;
+package com.luxoft.training.solid.store;
 
 public class NotEnoughInStockException extends RuntimeException {
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Cart {
 
-    private static final double DELIVERY_COST = 12;
+    public static final double DELIVERY_COST = 12;
 
     private final int id;
     private List<Product> products;
